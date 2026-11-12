@@ -1,0 +1,34 @@
+/* The sharing wrapper: a quiet strip above the product that switches between the screen and the demo */
+.showcase {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding-block: var(--space-2);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.showcase__name { font-size: var(--text-13); font-weight: var(--weight-medium); color: var(--text-2); }
+.showcase__views { display: inline-flex; gap: var(--space-1); padding: 2px; border-radius: var(--radius-pill); background: var(--surface-3); }
+.showcase__views a {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  color: var(--text-2);
+  font-size: var(--text-13);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+}
+.showcase__views a[aria-current='page'] { background: var(--surface); color: var(--text); box-shadow: var(--shadow-rest); }
+@media (hover: hover) { .showcase__views a:hover { color: var(--text); } }
+.showcase__views a:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 2px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface-2); }

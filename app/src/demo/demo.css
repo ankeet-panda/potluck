@@ -1,0 +1,206 @@
+/* ---------- Host: a landing-hero setting ---------- */
+.hero {
+  max-width: calc(var(--app-cap) + 2 * var(--app-pad));
+  margin: 0 auto;
+  padding: var(--space-16) var(--app-pad);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 35rem;
+  align-items: center;
+  gap: var(--space-16);
+}
+.hero__brand { font-size: var(--text-20); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight); }
+.hero__title {
+  margin-top: var(--space-8);
+  max-width: 20ch;
+  font-size: 2.75rem;
+  font-weight: var(--weight-semibold);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  overflow-wrap: break-word;
+}
+.hero__lede { margin-top: var(--space-5); max-width: 40ch; font-size: 1.125rem; color: var(--text-2); }
+.hero__action {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  margin-top: var(--space-8);
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: background-color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) { .hero__action:hover { background: var(--primary-hover); } }
+.hero__action:focus-visible, .pd-btn:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+
+.pd-figure { margin: 0; }
+.pd-figure--pending { min-height: 43.75rem; }
+.pd-controls { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.pd-btn {
+  height: 32px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-control);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--text-13);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+@media (hover: hover) { .pd-btn:hover { background: var(--surface-2); } }
+.pd-note { font-size: var(--text-12); color: var(--text-3); margin-left: var(--space-2); }
+
+@media (max-width: 60rem) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); padding-block: var(--space-10); }
+  .hero__title { font-size: 2.25rem; }
+  .pd-figure { justify-self: center; width: min(35rem, 100%); }
+}
+
+/* ---------- The stage (kit) and the faux app inside the phone ---------- */
+.pd {
+  /* No plate: the phone stands on the page; its foot fades out (mask, last 64px), one soft wash (alpha 0.10) behind it */
+  & .ss-stage {
+    overflow: hidden;
+    background: radial-gradient(55% 45% at 50% 32%, var(--wash), transparent 70%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), #0000);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), #0000);
+  }
+
+  & .pd-phone { position: absolute; left: 50%; top: 32px; transform: translateX(-50%); }
+
+  & [data-person='ishaan'] { --p-pale: var(--ishaan-pale); --p-ink: var(--ishaan-ink); }
+  & [data-person='tara'] { --p-pale: var(--tara-pale); --p-ink: var(--tara-ink); }
+  & [data-person='kabir'] { --p-pale: var(--kabir-pale); --p-ink: var(--kabir-ink); }
+  & [data-person='naina'] { --p-pale: var(--naina-pale); --p-ink: var(--naina-ink); }
+
+  & .pd-screen {
+    position: relative;
+    height: 100%;
+    padding: 4px 16px 0;
+    font-family: var(--font);
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--text);
+    overflow: hidden;
+  }
+  /* Compact (a second design, not a squeeze): the phone sits one gutter from the left and runs well off the right and
+     bottom; its screen is near true size, and the content keeps to the part of the screen inside the crop. */
+  & .ss-stage[data-layout='compact'] .pd-phone { left: 32px; transform: none; }
+  & .ss-stage[data-layout='compact'] .pd-screen { padding: 4px calc(100% - 297px) 0 16px; }
+  & .ss-stage[data-layout='compact'] .pd-sheet { padding: 0 calc(100% - 297px) 0 16px; }
+  /* The compact crop ends above the breakdown; the one-line "each" carries that beat */
+  & .ss-stage[data-layout='compact'] .pd-split { display: none; }
+  /* The narrow chit gives its name the avatar's width, so "Kabir pays you" stays on one line */
+  & .ss-stage[data-layout='compact'] .pd-chit__body { grid-template-columns: minmax(0, 1fr); }
+  & .ss-stage[data-layout='compact'] .pd-chit__body .pd-avatar { display: none; }
+  & .pd-strong { font-weight: var(--weight-medium); font-size: 12.5px; }
+  & .pd-faint { font-size: 11px; color: var(--text-3); }
+  & .pd-in { color: var(--positive-ink); }
+  & .pd-cancel, & .pd-word { font-size: 12px; color: var(--text-3); }
+
+  & .pd-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  & .pd-title { font-size: 20px; font-weight: var(--weight-semibold); letter-spacing: -0.02em; line-height: 1.15; }
+  & .pd-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+  & .pd-add {
+    display: inline-flex; align-items: center; gap: 4px;
+    height: 32px; padding: 0 12px 0 8px;
+    border-radius: 999px; background: var(--primary); color: var(--on-primary);
+    font-size: 12px; font-weight: var(--weight-semibold);
+  }
+
+  & .pd-balance {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 20px;
+    color: var(--on-ink);
+    background: linear-gradient(155deg, var(--ink-card), var(--ink-card-2));
+  }
+  & .pd-balance__label { font-size: 12px; color: var(--on-ink-2); }
+  & .pd-balance__figure { display: block; margin-top: 2px; font-size: 28px; font-weight: var(--weight-semibold); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  & .pd-balance__why { margin-top: 4px; font-size: 11px; color: var(--on-ink-2); }
+
+  & .pd-chit-wrap { margin-top: 12px; filter: drop-shadow(0 1px 1px var(--paper-shadow)) drop-shadow(0 6px 10px var(--paper-shadow)); }
+  & .pd-chit {
+    --stub: 120px; --notch: 6px;
+    display: grid; grid-template-columns: minmax(0, 1fr) var(--stub);
+    color: var(--paper-ink);
+    background: linear-gradient(to right, var(--paper) calc(100% - var(--stub)), var(--paper-2) 0);
+    border-radius: 12px;
+    -webkit-mask:
+      radial-gradient(circle at calc(100% - var(--stub)) 0, #0000 var(--notch), #000 calc(var(--notch) + 0.5px)) top / 100% 51% no-repeat,
+      radial-gradient(circle at calc(100% - var(--stub)) 100%, #0000 var(--notch), #000 calc(var(--notch) + 0.5px)) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle at calc(100% - var(--stub)) 0, #0000 var(--notch), #000 calc(var(--notch) + 0.5px)) top / 100% 51% no-repeat,
+      radial-gradient(circle at calc(100% - var(--stub)) 100%, #0000 var(--notch), #000 calc(var(--notch) + 0.5px)) bottom / 100% 51% no-repeat;
+  }
+  & .pd-chit__body { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px; padding: 8px 12px; }
+  & .pd-chit__sub { font-size: 11px; color: var(--paper-ink-2); }
+  & .pd-chit__stub {
+    display: grid; justify-items: center; align-content: center; gap: 8px; padding: 8px;
+    background: radial-gradient(circle, var(--perforation) 1px, #0000 1.4px) left top / 4px 8px repeat-y;
+  }
+  & .pd-chit__amount { display: block; overflow: clip; line-height: 1.25; font-size: 16px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+  & .pd-chit__action { display: inline-grid; place-items: center; height: 24px; padding: 0 8px; white-space: nowrap; border: 1px solid var(--paper-ink-2); border-radius: 999px; font-size: 11px; font-weight: var(--weight-semibold); }
+
+  & .pd-section { margin: 16px 0 4px; font-size: 12px; font-weight: var(--weight-semibold); color: var(--text-3); }
+  & .pd-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+  & .pd-row__pos { display: grid; justify-items: end; }
+  & .pd-cat { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--surface-2); color: var(--text-2); }
+
+  & .pd-avatar {
+    display: inline-grid; place-items: center; flex: none;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--p-pale); color: var(--p-ink);
+    font-size: 11px; font-weight: var(--weight-semibold);
+  }
+
+  & .pd-scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; transition: opacity 320ms cubic-bezier(0.3, 0.75, 0.1, 1); }
+  & .pd-scrim[data-on] { opacity: 1; }
+  & .pd-sheet {
+    position: absolute; left: 0; right: 0; top: 52px; bottom: 0;
+    padding: 0 16px;
+    border-radius: 20px 20px 0 0;
+    background: var(--surface);
+    box-shadow: var(--shadow-overlay);
+    transform: translateY(102%);
+    visibility: hidden;
+    transition: transform 500ms cubic-bezier(0.3, 0.75, 0.1, 1), visibility 0s 500ms;
+  }
+  & .pd-sheet[data-on] { transform: none; visibility: visible; transition: transform 500ms cubic-bezier(0.3, 0.75, 0.1, 1), visibility 0s; }
+  /* Small parts that glide keep their own layer, so their text never hops a fraction of a pixel */
+  & .pd-sheet, & .pd-row, & .pd-chit { will-change: transform; }
+  & .pd-sheet__bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 46px; }
+  & .pd-sheet__bar > :last-child { justify-self: end; }
+  & .pd-save { font-size: 13px; font-weight: var(--weight-semibold); color: var(--accent-ink); padding: 4px 0; }
+  & .pd-field { display: grid; gap: 2px; margin-top: 8px; padding: 8px 12px; border-radius: 12px; background: var(--surface-2); }
+  & .pd-label { font-size: 12px; color: var(--text-3); }
+  & .pd-label--group { margin-top: 12px; }
+  & .pd-input { display: flex; align-items: center; min-height: 19px; font-size: 14px; font-weight: var(--weight-medium); }
+  & .pd-amount { font-size: 24px; font-weight: var(--weight-semibold); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  & .pd-placeholder { color: var(--text-3); font-weight: var(--weight-regular); }
+  & .pd-caret { display: inline-block; width: 1.5px; height: 16px; margin-left: 1px; background: var(--accent-ink); }
+  & .pd-chips { display: grid; grid-template-columns: repeat(2, max-content); gap: 8px; margin-top: 8px; }
+  & .pd-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 34px; padding: 0 12px 0 4px;
+    border: 1px solid var(--border-control); border-radius: 999px;
+    background: var(--surface);
+    font-size: 12px; font-weight: var(--weight-medium);
+    transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+  }
+  & .pd-chip[data-on] { background: var(--accent-pale); border-color: var(--accent-ink); }
+  /* The tick keeps its space, so selecting never changes a chip's width */
+  & .pd-tick { opacity: 0; flex: none; width: 14px; height: 14px; color: var(--accent-ink); transition: opacity 160ms var(--ease-out); }
+  & .pd-chip[data-on] .pd-tick { opacity: 1; }
+  & .pd-chip { justify-self: start; }
+  & .pd-preview { margin-top: 12px; font-size: 13px; font-weight: var(--weight-semibold); color: var(--text-2); font-variant-numeric: tabular-nums; }
+  & .pd-swap { display: grid; }
+  & .pd-swap > span { grid-area: 1 / 1; opacity: 0; transition: opacity 220ms var(--ease-out); }
+  & .pd-swap > span[data-on] { opacity: 1; }
+  & .pd-split { display: grid; gap: 4px; margin-top: 8px; padding: 8px 12px; border-radius: 12px; background: var(--surface-2); }
+  & .pd-split__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 12px; }
+  & .pd-split__total { display: flex; justify-content: space-between; padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--line); font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+}
+
+/* No reduced-motion rules here: the demo always plays in full (src/demo/full-motion.ts) */
